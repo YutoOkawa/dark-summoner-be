@@ -12,8 +12,8 @@ type MonsterRegisterService struct {
 	monsterService    *MonsterCheckService
 }
 
-func NewMonsterRegisterService(monsterRepository repository.MonsterSaver, monsterService *MonsterCheckService) *MonsterRegisterService {
-	return &MonsterRegisterService{
+func NewMonsterRegisterService(monsterRepository repository.MonsterSaver, monsterService *MonsterCheckService) MonsterRegisterService {
+	return MonsterRegisterService{
 		monsterRepository: monsterRepository,
 		monsterService:    monsterService,
 	}

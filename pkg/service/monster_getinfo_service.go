@@ -11,8 +11,8 @@ type MonsterGetInfoService struct {
 	monsterRepository repository.MonsterGetter
 }
 
-func NewMonsterGetInfoService(monsterRepository repository.MonsterGetter) *MonsterGetInfoService {
-	return &MonsterGetInfoService{
+func NewMonsterGetInfoService(monsterRepository repository.MonsterGetter) MonsterGetInfoService {
+	return MonsterGetInfoService{
 		monsterRepository: monsterRepository,
 	}
 }
