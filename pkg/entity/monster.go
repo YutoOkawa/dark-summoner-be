@@ -2,19 +2,6 @@ package entity
 
 import "errors"
 
-type MonsterName struct {
-	Name string
-}
-
-func NewMonsterName(name string) (*MonsterName, error) {
-	if name == "" {
-		return nil, errors.New("illegal argument: name cannot be empty")
-	}
-	return &MonsterName{
-		Name: name,
-	}, nil
-}
-
 type MonsterParameter struct {
 	Parameter int
 }
@@ -29,7 +16,7 @@ func NewMonsterParameter(param int) (*MonsterParameter, error) {
 }
 
 type Monster struct {
-	Name      MonsterName      `json:"name"`
+	Name      string           `json:"name"`
 	ATK       MonsterParameter `json:"atk"`
 	DEF       MonsterParameter `json:"def"`
 	HP        MonsterParameter `json:"hp"`
@@ -39,8 +26,8 @@ type Monster struct {
 	Attribute string           `json:"attribute"`
 }
 
-func NewMonster(name MonsterName, atk, def, hp MonsterParameter, rarity string, rarityID int, skill, attribute string) (*Monster, error) {
-	if name == (MonsterName{}) {
+func NewMonster(name string, atk, def, hp MonsterParameter, rarity string, rarityID int, skill, attribute string) (*Monster, error) {
+	if name == "" {
 		return nil, errors.New("illegal argument: name cannot be empty")
 	}
 	if atk == (MonsterParameter{}) {

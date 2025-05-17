@@ -12,15 +12,13 @@ type mockMonsterGetter struct {
 	findError   error
 }
 
-func (m *mockMonsterGetter) Find(name entity.MonsterName) (*entity.Monster, error) {
+func (m *mockMonsterGetter) Find(name string) (*entity.Monster, error) {
 	return m.mockMonster, m.findError
 }
 
 func TestMonsterCheckServiceExists(t *testing.T) {
 	monster := entity.Monster{
-		Name: entity.MonsterName{
-			Name: "test_monster",
-		},
+		Name: "test_monster",
 		ATK: entity.MonsterParameter{
 			Parameter: 10,
 		},

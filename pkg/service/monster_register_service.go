@@ -20,11 +20,6 @@ func NewMonsterRegisterService(monsterRepository repository.MonsterSaver, monste
 }
 
 func (s *MonsterRegisterService) Register(command entity.MonsterRegisterCommand) error {
-	monsterName, err := entity.NewMonsterName(command.Name)
-	if err != nil {
-		return err
-	}
-
 	atkMonsterParameter, err := entity.NewMonsterParameter(command.ATK)
 	if err != nil {
 		return err
@@ -41,7 +36,7 @@ func (s *MonsterRegisterService) Register(command entity.MonsterRegisterCommand)
 	}
 
 	monster, err := entity.NewMonster(
-		*monsterName,
+		command.Name,
 		*atkMonsterParameter,
 		*defMonsterParameter,
 		*hpMonsterParameter,

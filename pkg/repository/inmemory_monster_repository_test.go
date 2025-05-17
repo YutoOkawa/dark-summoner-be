@@ -17,9 +17,7 @@ func TestInMemoryMonsterRepositorySave(t *testing.T) {
 		{
 			name: "SaveMonsterSuccessfully",
 			monster: entity.Monster{
-				Name: entity.MonsterName{
-					Name: "test_monster",
-				},
+				Name: "test_monster",
 				ATK: entity.MonsterParameter{
 					Parameter: 10,
 				},
@@ -50,9 +48,7 @@ func TestInMemoryMonsterRepositorySave(t *testing.T) {
 func TestInMemoryMonsterRepositoryFind(t *testing.T) {
 	repo := NewInMemoryMonsterRepository()
 	monster := entity.Monster{
-		Name: entity.MonsterName{
-			Name: "test_monster",
-		},
+		Name: "test_monster",
 		ATK: entity.MonsterParameter{
 			Parameter: 10,
 		},
@@ -71,14 +67,14 @@ func TestInMemoryMonsterRepositoryFind(t *testing.T) {
 
 	tests := []struct {
 		name        string
-		monsterName entity.MonsterName
+		monsterName string
 		expected    *entity.Monster
 	}{
 		{
 			name: "FindExistingMonster",
-			monsterName: entity.MonsterName{
-				Name: "test_monster",
-			},
+
+			monsterName: "test_monster",
+
 			expected: &monster,
 		},
 	}

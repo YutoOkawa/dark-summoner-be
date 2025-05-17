@@ -17,7 +17,7 @@ func NewMonsterGetInfoService(monsterRepository repository.MonsterGetter) *Monst
 	}
 }
 
-func (s *MonsterGetInfoService) GetInfo(name entity.MonsterName) (*entity.Monster, error) {
+func (s *MonsterGetInfoService) GetInfo(name string) (*entity.Monster, error) {
 	monster, err := s.monsterRepository.Find(name)
 	if err != nil {
 		return nil, err

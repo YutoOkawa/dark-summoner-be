@@ -13,7 +13,7 @@ type mockMonsterGetterSaver struct {
 	saveError   error
 }
 
-func (m *mockMonsterGetterSaver) Find(name entity.MonsterName) (*entity.Monster, error) {
+func (m *mockMonsterGetterSaver) Find(name string) (*entity.Monster, error) {
 	return m.mockMonster, m.findError
 }
 
@@ -58,9 +58,7 @@ func TestMonsterRegisterService(t *testing.T) {
 			command: monsterRegisterCommand,
 
 			mockMonster: &entity.Monster{
-				Name: entity.MonsterName{
-					Name: "test_monster",
-				},
+				Name: "test_monster",
 				ATK: entity.MonsterParameter{
 					Parameter: 10,
 				},

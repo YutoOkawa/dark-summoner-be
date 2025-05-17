@@ -7,7 +7,7 @@ type MonsterSaver interface {
 }
 
 type MonsterGetter interface {
-	Find(name entity.MonsterName) (*entity.Monster, error)
+	Find(name string) (*entity.Monster, error)
 }
 
 type MonsterGetterSaver interface {

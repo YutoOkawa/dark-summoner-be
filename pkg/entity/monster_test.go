@@ -2,44 +2,6 @@ package entity
 
 import "testing"
 
-func TestNewMonsterName(t *testing.T) {
-	expectedMonsterName := MonsterName{
-		Name: "test_monster",
-	}
-
-	tests := []struct {
-		name                string
-		inputName           string
-		expectedMonsterName *MonsterName
-		err                 bool
-	}{
-		{
-			name:                "NewMonsterNameShouldReturnSuccessfully",
-			inputName:           "test_monster",
-			expectedMonsterName: &expectedMonsterName,
-			err:                 false,
-		},
-		{
-			name:                "NewMonsterNameShouldReturnErrorWhenNameIsEmpty",
-			inputName:           "",
-			expectedMonsterName: nil,
-			err:                 true,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			result, err := NewMonsterName(tt.inputName)
-			if (err != nil) != tt.err {
-				t.Errorf("expected error: %v, got: %v", tt.err, err)
-			}
-			if result != nil && *result != *tt.expectedMonsterName {
-				t.Errorf("expected: %v, got: %v", *tt.expectedMonsterName, *result)
-			}
-		})
-	}
-}
-
 func TestNewMonsterParameter(t *testing.T) {
 	expectedMonsterParameter := MonsterParameter{
 		Parameter: 10,
@@ -80,9 +42,7 @@ func TestNewMonsterParameter(t *testing.T) {
 
 func TestNewMonster(t *testing.T) {
 	expectedMonster := &Monster{
-		Name: MonsterName{
-			Name: "test_monster",
-		},
+		Name: "test_monster",
 		ATK: MonsterParameter{
 			Parameter: 10,
 		},

@@ -19,7 +19,7 @@ func (repo *InMemoryMonsterRepository) Save(monster entity.Monster) error {
 	return nil
 }
 
-func (repo *InMemoryMonsterRepository) Find(name entity.MonsterName) (*entity.Monster, error) {
+func (repo *InMemoryMonsterRepository) Find(name string) (*entity.Monster, error) {
 	for _, monster := range repo.monsters {
 		if monster.Name == name {
 			return &monster, nil

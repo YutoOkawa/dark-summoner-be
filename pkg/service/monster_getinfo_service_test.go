@@ -9,9 +9,7 @@ import (
 
 func TestMonsterGetInfoServiceGetInfo(t *testing.T) {
 	monster := entity.Monster{
-		Name: entity.MonsterName{
-			Name: "test_monster",
-		},
+		Name: "test_monster",
 		ATK: entity.MonsterParameter{
 			Parameter: 10,
 		},
@@ -29,7 +27,7 @@ func TestMonsterGetInfoServiceGetInfo(t *testing.T) {
 
 	tests := []struct {
 		name        string
-		monsterName entity.MonsterName
+		monsterName string
 
 		mockMonster *entity.Monster
 		findError   error
@@ -38,10 +36,8 @@ func TestMonsterGetInfoServiceGetInfo(t *testing.T) {
 		expectedError   bool
 	}{
 		{
-			name: "ShouldReturnGetInfoSuccessfully",
-			monsterName: entity.MonsterName{
-				Name: "test_monster",
-			},
+			name:        "ShouldReturnGetInfoSuccessfully",
+			monsterName: "test_monster",
 
 			mockMonster: &monster,
 			findError:   nil,
@@ -50,10 +46,8 @@ func TestMonsterGetInfoServiceGetInfo(t *testing.T) {
 			expectedError:   false,
 		},
 		{
-			name: "ShouldReturnErrorWhenMonsterDoesNotExist",
-			monsterName: entity.MonsterName{
-				Name: "non_existent_monster",
-			},
+			name:        "ShouldReturnErrorWhenMonsterDoesNotExist",
+			monsterName: "non_existent_monster",
 
 			mockMonster: nil,
 			findError:   nil,
@@ -62,10 +56,8 @@ func TestMonsterGetInfoServiceGetInfo(t *testing.T) {
 			expectedError:   true,
 		},
 		{
-			name: "ShouldReturnErrorWhenRepositoryReturnsError",
-			monsterName: entity.MonsterName{
-				Name: "test_monster",
-			},
+			name:        "ShouldReturnErrorWhenRepositoryReturnsError",
+			monsterName: "test_monster",
 
 			mockMonster: nil,
 			findError:   errors.New("repository error"),
