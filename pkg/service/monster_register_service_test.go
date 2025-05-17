@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/YutoOkawa/dark-summoner-be/pkg/entity"
@@ -33,18 +34,48 @@ func TestMonsterRegisterService(t *testing.T) {
 	}
 
 	tests := []struct {
-		name          string
-		monster       *entity.Monster
+		name string
+
+		mockMonster *entity.Monster
+		findError   error
+		saveError   error
+
 		expectedError bool
 	}{
 		{
-			name:          "ShouldRegisterSuccessfully",
-			monster:       nil,
+			name: "ShouldRegisterSuccessfully",
+
+			mockMonster: nil,
+			findError:   nil,
+			saveError:   nil,
+
 			expectedError: false,
 		},
 		{
-			name:          "ShouldReturnErrorWhenMonsterAlreadyExists",
-			monster:       &monster,
+			name: "ShouldReturnErrorWhenMonsterAlreadyExists",
+
+			mockMonster: &monster,
+			findError:   nil,
+			saveError:   nil,
+
+			expectedError: true,
+		},
+		{
+			name: "ShouldReturnErrorWhenFindFails",
+
+			mockMonster: nil,
+			findError:   errors.New("find error"),
+			saveError:   nil,
+
+			expectedError: true,
+		},
+		{
+			name: "ShouldReturnErrorWhenSaveFails",
+
+			mockMonster: nil,
+			findError:   nil,
+			saveError:   errors.New("save error"),
+
 			expectedError: true,
 		},
 	}
@@ -52,9 +83,9 @@ func TestMonsterRegisterService(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			repo := mockMonsterGetterSaver{
-				mockMonster: tt.monster,
-				findError:   nil,
-				saveError:   nil,
+				mockMonster: tt.mockMonster,
+				findError:   tt.findError,
+				saveError:   tt.saveError,
 			}
 			domainService := NewMonsterService(&repo)
 			service := NewMonsterRegisterService(&repo, domainService)
