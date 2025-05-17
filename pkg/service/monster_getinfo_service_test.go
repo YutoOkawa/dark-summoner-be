@@ -9,10 +9,18 @@ import (
 
 func TestMonsterGetInfoServiceGetInfo(t *testing.T) {
 	monster := entity.Monster{
-		Name:      entity.MonsterName("test_monster"),
-		ATK:       entity.MonsterParameter(10),
-		DEF:       entity.MonsterParameter(5),
-		HP:        entity.MonsterParameter(100),
+		Name: entity.MonsterName{
+			Name: "test_monster",
+		},
+		ATK: entity.MonsterParameter{
+			Parameter: 10,
+		},
+		DEF: entity.MonsterParameter{
+			Parameter: 5,
+		},
+		HP: entity.MonsterParameter{
+			Parameter: 20,
+		},
 		Rarity:    "test",
 		RarityID:  0,
 		Skill:     "test",
@@ -30,8 +38,10 @@ func TestMonsterGetInfoServiceGetInfo(t *testing.T) {
 		expectedError   bool
 	}{
 		{
-			name:        "ShouldReturnGetInfoSuccessfully",
-			monsterName: "test_monster",
+			name: "ShouldReturnGetInfoSuccessfully",
+			monsterName: entity.MonsterName{
+				Name: "test_monster",
+			},
 
 			mockMonster: &monster,
 			findError:   nil,
@@ -40,8 +50,10 @@ func TestMonsterGetInfoServiceGetInfo(t *testing.T) {
 			expectedError:   false,
 		},
 		{
-			name:        "ShouldReturnErrorWhenMonsterDoesNotExist",
-			monsterName: "non_existent_monster",
+			name: "ShouldReturnErrorWhenMonsterDoesNotExist",
+			monsterName: entity.MonsterName{
+				Name: "non_existent_monster",
+			},
 
 			mockMonster: nil,
 			findError:   nil,
@@ -50,8 +62,10 @@ func TestMonsterGetInfoServiceGetInfo(t *testing.T) {
 			expectedError:   true,
 		},
 		{
-			name:        "ShouldReturnErrorWhenRepositoryReturnsError",
-			monsterName: "test_monster",
+			name: "ShouldReturnErrorWhenRepositoryReturnsError",
+			monsterName: entity.MonsterName{
+				Name: "test_monster",
+			},
 
 			mockMonster: nil,
 			findError:   errors.New("repository error"),

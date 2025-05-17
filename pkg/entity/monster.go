@@ -2,24 +2,30 @@ package entity
 
 import "errors"
 
-type MonsterName string
+type MonsterName struct {
+	Name string
+}
 
 func NewMonsterName(name string) (*MonsterName, error) {
 	if name == "" {
 		return nil, errors.New("illegal argument: name cannot be empty")
 	}
-	monsterName := MonsterName(name)
-	return &monsterName, nil
+	return &MonsterName{
+		Name: name,
+	}, nil
 }
 
-type MonsterParameter int
+type MonsterParameter struct {
+	Parameter int
+}
 
 func NewMonsterParameter(param int) (*MonsterParameter, error) {
 	if param < 0 {
 		return nil, errors.New("illegal argument: parameter cannot be negative")
 	}
-	monsterParam := MonsterParameter(param)
-	return &monsterParam, nil
+	return &MonsterParameter{
+		Parameter: param,
+	}, nil
 }
 
 type Monster struct {
@@ -34,17 +40,17 @@ type Monster struct {
 }
 
 func NewMonster(name MonsterName, atk, def, hp MonsterParameter, rarity string, rarityID int, skill, attribute string) (*Monster, error) {
-	if name == "" {
+	if name == (MonsterName{}) {
 		return nil, errors.New("illegal argument: name cannot be empty")
 	}
-	if atk < 0 {
-		return nil, errors.New("illegal argument: atk cannot be negative")
+	if atk == (MonsterParameter{}) {
+		return nil, errors.New("illegal argument: atk cannot be empty")
 	}
-	if def < 0 {
-		return nil, errors.New("illegal argument: def cannot be negative")
+	if def == (MonsterParameter{}) {
+		return nil, errors.New("illegal argument: def cannot be empty")
 	}
-	if hp < 0 {
-		return nil, errors.New("illegal argument: hp cannot be negative")
+	if hp == (MonsterParameter{}) {
+		return nil, errors.New("illegal argument: hp cannot be empty")
 	}
 	if rarity == "" {
 		return nil, errors.New("illegal argument: rarity cannot be empty")

@@ -17,10 +17,18 @@ func TestInMemoryMonsterRepositorySave(t *testing.T) {
 		{
 			name: "SaveMonsterSuccessfully",
 			monster: entity.Monster{
-				Name:      entity.MonsterName("test_monster"),
-				ATK:       entity.MonsterParameter(10),
-				DEF:       entity.MonsterParameter(5),
-				HP:        entity.MonsterParameter(100),
+				Name: entity.MonsterName{
+					Name: "test_monster",
+				},
+				ATK: entity.MonsterParameter{
+					Parameter: 10,
+				},
+				DEF: entity.MonsterParameter{
+					Parameter: 5,
+				},
+				HP: entity.MonsterParameter{
+					Parameter: 20,
+				},
 				Rarity:    "test",
 				RarityID:  0,
 				Skill:     "test",
@@ -42,10 +50,18 @@ func TestInMemoryMonsterRepositorySave(t *testing.T) {
 func TestInMemoryMonsterRepositoryFind(t *testing.T) {
 	repo := NewInMemoryMonsterRepository()
 	monster := entity.Monster{
-		Name:      entity.MonsterName("test_monster"),
-		ATK:       entity.MonsterParameter(10),
-		DEF:       entity.MonsterParameter(5),
-		HP:        entity.MonsterParameter(100),
+		Name: entity.MonsterName{
+			Name: "test_monster",
+		},
+		ATK: entity.MonsterParameter{
+			Parameter: 10,
+		},
+		DEF: entity.MonsterParameter{
+			Parameter: 5,
+		},
+		HP: entity.MonsterParameter{
+			Parameter: 20,
+		},
 		Rarity:    "test",
 		RarityID:  0,
 		Skill:     "test",
@@ -59,9 +75,11 @@ func TestInMemoryMonsterRepositoryFind(t *testing.T) {
 		expected   *entity.Monster
 	}{
 		{
-			name:       "FindExistingMonster",
-			nameToFind: entity.MonsterName("test_monster"),
-			expected:   &monster,
+			name: "FindExistingMonster",
+			nameToFind: entity.MonsterName{
+				Name: "test_monster",
+			},
+			expected: &monster,
 		},
 	}
 

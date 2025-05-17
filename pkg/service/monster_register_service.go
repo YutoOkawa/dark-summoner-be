@@ -19,8 +19,42 @@ func NewMonsterRegisterService(monsterRepository repository.MonsterSaver, monste
 	}
 }
 
-func (s *MonsterRegisterService) Register(monster entity.Monster) error {
-	exists, err := s.monsterService.Exists(monster)
+func (s *MonsterRegisterService) Register(command entity.MonsterRegisterCommand) error {
+	monsterName, err := entity.NewMonsterName(command.Name)
+	if err != nil {
+		return err
+	}
+
+	atkMonsterParameter, err := entity.NewMonsterParameter(command.ATK)
+	if err != nil {
+		return err
+	}
+
+	defMonsterParameter, err := entity.NewMonsterParameter(command.DEF)
+	if err != nil {
+		return err
+	}
+
+	hpMonsterParameter, err := entity.NewMonsterParameter(command.HP)
+	if err != nil {
+		return err
+	}
+
+	monster, err := entity.NewMonster(
+		*monsterName,
+		*atkMonsterParameter,
+		*defMonsterParameter,
+		*hpMonsterParameter,
+		command.Rarity,
+		command.RarityID,
+		command.Skill,
+		command.Attribute,
+	)
+	if err != nil {
+		return err
+	}
+
+	exists, err := s.monsterService.Exists(*monster)
 	if err != nil {
 		return err
 	}
@@ -29,7 +63,7 @@ func (s *MonsterRegisterService) Register(monster entity.Monster) error {
 		return errors.New("monster already exists")
 	}
 
-	err = s.monsterRepository.Save(monster)
+	err = s.monsterRepository.Save(*monster)
 	if err != nil {
 		return err
 	}

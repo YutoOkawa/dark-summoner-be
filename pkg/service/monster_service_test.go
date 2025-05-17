@@ -18,10 +18,18 @@ func (m *mockMonsterGetter) Find(name entity.MonsterName) (*entity.Monster, erro
 
 func TestMonsterCheckServiceExists(t *testing.T) {
 	monster := entity.Monster{
-		Name:      entity.MonsterName("test_monster"),
-		ATK:       entity.MonsterParameter(10),
-		DEF:       entity.MonsterParameter(5),
-		HP:        entity.MonsterParameter(100),
+		Name: entity.MonsterName{
+			Name: "test_monster",
+		},
+		ATK: entity.MonsterParameter{
+			Parameter: 10,
+		},
+		DEF: entity.MonsterParameter{
+			Parameter: 5,
+		},
+		HP: entity.MonsterParameter{
+			Parameter: 20,
+		},
 		Rarity:    "test",
 		RarityID:  0,
 		Skill:     "test",

@@ -22,11 +22,11 @@ func (m *mockMonsterGetterSaver) Save(monster entity.Monster) error {
 }
 
 func TestMonsterRegisterService(t *testing.T) {
-	monster := entity.Monster{
-		Name:      entity.MonsterName("test_monster"),
-		ATK:       entity.MonsterParameter(10),
-		DEF:       entity.MonsterParameter(5),
-		HP:        entity.MonsterParameter(100),
+	monsterRegisterCommand := entity.MonsterRegisterCommand{
+		Name:      "test_monster",
+		ATK:       10,
+		DEF:       5,
+		HP:        100,
 		Rarity:    "test",
 		RarityID:  0,
 		Skill:     "test",
@@ -34,7 +34,8 @@ func TestMonsterRegisterService(t *testing.T) {
 	}
 
 	tests := []struct {
-		name string
+		name    string
+		command entity.MonsterRegisterCommand
 
 		mockMonster *entity.Monster
 		findError   error
@@ -43,7 +44,8 @@ func TestMonsterRegisterService(t *testing.T) {
 		expectedError bool
 	}{
 		{
-			name: "ShouldRegisterSuccessfully",
+			name:    "ShouldRegisterSuccessfully",
+			command: monsterRegisterCommand,
 
 			mockMonster: nil,
 			findError:   nil,
@@ -52,16 +54,89 @@ func TestMonsterRegisterService(t *testing.T) {
 			expectedError: false,
 		},
 		{
-			name: "ShouldReturnErrorWhenMonsterAlreadyExists",
+			name:    "ShouldReturnErrorWhenMonsterAlreadyExists",
+			command: monsterRegisterCommand,
 
-			mockMonster: &monster,
+			mockMonster: &entity.Monster{
+				Name: entity.MonsterName{
+					Name: "test_monster",
+				},
+				ATK: entity.MonsterParameter{
+					Parameter: 10,
+				},
+				DEF: entity.MonsterParameter{
+					Parameter: 5,
+				},
+				HP: entity.MonsterParameter{
+					Parameter: 20,
+				},
+				Rarity:    "test",
+				RarityID:  0,
+				Skill:     "test",
+				Attribute: "test",
+			},
+			findError: nil,
+			saveError: nil,
+
+			expectedError: true,
+		},
+		{
+			name: "ShouldReturnErrorWhenMonsterNameIsInvalid",
+			command: entity.MonsterRegisterCommand{
+				Name: "",
+			},
+
+			mockMonster: nil,
 			findError:   nil,
 			saveError:   nil,
 
 			expectedError: true,
 		},
 		{
-			name: "ShouldReturnErrorWhenFindFails",
+			name: "ShouldReturnErrorWhenMonsterATKIsInvalid",
+			command: entity.MonsterRegisterCommand{
+				Name: "test_monster",
+				ATK:  -1,
+			},
+
+			mockMonster: nil,
+			findError:   nil,
+			saveError:   nil,
+
+			expectedError: true,
+		},
+		{
+			name: "ShouldReturnErrorWhenMonsterDEFIsInvalid",
+			command: entity.MonsterRegisterCommand{
+				Name: "test_monster",
+				ATK:  10,
+				DEF:  -1,
+			},
+
+			mockMonster: nil,
+			findError:   nil,
+			saveError:   nil,
+
+			expectedError: true,
+		},
+		{
+			name: "ShouldReturnErrorWhenMonsterHPIsInvalid",
+			command: entity.MonsterRegisterCommand{
+				Name: "test_monster",
+				ATK:  10,
+				DEF:  5,
+				HP:   -1,
+			},
+
+			mockMonster: nil,
+			findError:   nil,
+			saveError:   nil,
+
+			expectedError: true,
+		},
+		{
+			name:    "ShouldReturnErrorWhenFindFails",
+			command: monsterRegisterCommand,
 
 			mockMonster: nil,
 			findError:   errors.New("find error"),
@@ -70,7 +145,8 @@ func TestMonsterRegisterService(t *testing.T) {
 			expectedError: true,
 		},
 		{
-			name: "ShouldReturnErrorWhenSaveFails",
+			name:    "ShouldReturnErrorWhenSaveFails",
+			command: monsterRegisterCommand,
 
 			mockMonster: nil,
 			findError:   nil,
@@ -90,7 +166,7 @@ func TestMonsterRegisterService(t *testing.T) {
 			domainService := NewMonsterService(&repo)
 			service := NewMonsterRegisterService(&repo, domainService)
 
-			err := service.Register(monster)
+			err := service.Register(tt.command)
 			if (err != nil) != tt.expectedError {
 				t.Errorf("expected error: %v, got: %v", tt.expectedError, err)
 			}

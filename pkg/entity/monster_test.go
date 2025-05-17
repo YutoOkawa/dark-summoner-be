@@ -3,7 +3,9 @@ package entity
 import "testing"
 
 func TestNewMonsterName(t *testing.T) {
-	expectedMonsterName := MonsterName("test_monster")
+	expectedMonsterName := MonsterName{
+		Name: "test_monster",
+	}
 
 	tests := []struct {
 		name                string
@@ -39,7 +41,9 @@ func TestNewMonsterName(t *testing.T) {
 }
 
 func TestNewMonsterParameter(t *testing.T) {
-	expectedMonsterParameter := MonsterParameter(10)
+	expectedMonsterParameter := MonsterParameter{
+		Parameter: 10,
+	}
 
 	tests := []struct {
 		name                     string
@@ -76,10 +80,18 @@ func TestNewMonsterParameter(t *testing.T) {
 
 func TestNewMonster(t *testing.T) {
 	expectedMonster := &Monster{
-		Name:      MonsterName("test_monster"),
-		ATK:       MonsterParameter(10),
-		DEF:       MonsterParameter(5),
-		HP:        MonsterParameter(100),
+		Name: MonsterName{
+			Name: "test_monster",
+		},
+		ATK: MonsterParameter{
+			Parameter: 10,
+		},
+		DEF: MonsterParameter{
+			Parameter: 5,
+		},
+		HP: MonsterParameter{
+			Parameter: 20,
+		},
 		Rarity:    "test",
 		RarityID:  0,
 		Skill:     "test",
