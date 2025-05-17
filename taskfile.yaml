@@ -1,0 +1,14 @@
+version: '3'
+
+tasks:
+  build:
+    cmds:
+      - go build ./cmd/dark-summoner-be 
+
+  test:
+    cmds:
+      - go test -v ./...
+
+  run:
+    cmds:
+      - ./dark-summoner-be
