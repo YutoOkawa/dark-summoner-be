@@ -1,0 +1,34 @@
+name: unit-test
+run-name: Unit test
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  unit-test:
+    run-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [ '1.23.x', '1.24.x' ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache: true
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+      
+      - name: Install dependencies
+        run : go get ./...
+
+      - name: Build
+        run: go build ./cmd/dark-summoner-be
+
+      - name: Run tests
+        run: go test -v ./...
