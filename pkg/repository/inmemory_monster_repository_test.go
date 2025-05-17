@@ -70,13 +70,13 @@ func TestInMemoryMonsterRepositoryFind(t *testing.T) {
 	repo.Save(monster)
 
 	tests := []struct {
-		name       string
-		nameToFind entity.MonsterName
-		expected   *entity.Monster
+		name        string
+		monsterName entity.MonsterName
+		expected    *entity.Monster
 	}{
 		{
 			name: "FindExistingMonster",
-			nameToFind: entity.MonsterName{
+			monsterName: entity.MonsterName{
 				Name: "test_monster",
 			},
 			expected: &monster,
@@ -85,7 +85,7 @@ func TestInMemoryMonsterRepositoryFind(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := repo.Find(tt.nameToFind)
+			result, err := repo.Find(tt.monsterName)
 			if err != nil {
 				t.Errorf("unexpected error: %v", err)
 			}
