@@ -17,10 +17,12 @@ func NewInMemorySummonerRepository() *InMemorySummonerRepository {
 func (repo *InMemorySummonerRepository) Save(summoner entity.Summoner) error {
 	for i, s := range repo.summoners {
 		if s.PlayerID == summoner.PlayerID {
+			// Update existing summoner
 			repo.summoners[i] = summoner
 			return nil
 		}
 	}
+	// Add new summoner
 	repo.summoners = append(repo.summoners, summoner)
 	return nil
 }
