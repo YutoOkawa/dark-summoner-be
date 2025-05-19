@@ -7,12 +7,12 @@ import (
 	"github.com/YutoOkawa/dark-summoner-be/pkg/entity"
 )
 
-type mockSummonerRepository struct {
+type mockSummonerGetter struct {
 	mockSummoner *entity.Summoner
 	findError    error
 }
 
-func (m *mockSummonerRepository) Find(playerID string) (*entity.Summoner, error) {
+func (m *mockSummonerGetter) Find(playerID string) (*entity.Summoner, error) {
 	return m.mockSummoner, m.findError
 }
 
@@ -62,7 +62,7 @@ func TestSummonerServiceExists(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			mockRepository := &mockSummonerRepository{
+			mockRepository := &mockSummonerGetter{
 				mockSummoner: tt.mockSummoner,
 				findError:    tt.findError,
 			}
