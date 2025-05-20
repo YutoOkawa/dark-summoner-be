@@ -7,17 +7,17 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type GetInfoHandler struct {
+type MonsterGetInfoHandler struct {
 	monsterGetInfoService service.MonsterGetInfoService
 }
 
-func NewGetInfoHandler(monsterGetInfoService service.MonsterGetInfoService) GetInfoHandler {
-	return GetInfoHandler{
+func NewGetInfoHandler(monsterGetInfoService service.MonsterGetInfoService) MonsterGetInfoHandler {
+	return MonsterGetInfoHandler{
 		monsterGetInfoService: monsterGetInfoService,
 	}
 }
 
-func (g *GetInfoHandler) GetInfoHandlerFunc() func(c *fiber.Ctx) error {
+func (g *MonsterGetInfoHandler) GetInfoHandlerFunc() func(c *fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
 		name := c.Params("name")
 
