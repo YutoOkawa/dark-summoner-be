@@ -10,3 +10,8 @@ type MonsterRegisterCommand struct {
 	Skill     string
 	Attribute string
 }
+
+type SummonerRegisterCommand struct {
+	PlayerID string
+	Monsters []Monster
+}
