@@ -22,3 +22,8 @@ type SummonerSaver interface {
 type SummonerGetter interface {
 	Find(playerID string) (*entity.Summoner, error)
 }
+
+type SummonerGetterSaver interface {
+	SummonerSaver
+	SummonerGetter
+}

@@ -15,3 +15,8 @@ type SummonerRegisterCommand struct {
 	PlayerID string
 	Monsters []Monster
 }
+
+type SummonerAddMonsterCommand struct {
+	PlayerID string
+	Monster  Monster
+}
