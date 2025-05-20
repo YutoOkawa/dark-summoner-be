@@ -18,7 +18,7 @@ func (s *SummonerService) Exists(playerID string) (bool, error) {
 		return false, err
 	}
 	if summoner == nil {
-		return true, nil
+		return false, nil
 	}
-	return false, nil
+	return true, nil
 }

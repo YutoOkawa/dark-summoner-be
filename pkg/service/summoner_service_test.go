@@ -32,21 +32,21 @@ func TestSummonerServiceExists(t *testing.T) {
 		expectedError bool
 	}{
 		{
-			name: "TestSummonerServiceExistsSuccessfully",
+			name: "TestSummonerServiceExistsShouldReturnFalseWithSummonerNotFound",
 
 			mockSummoner: nil,
 			findError:    nil,
 
-			expectedBool:  true,
+			expectedBool:  false,
 			expectedError: false,
 		},
 		{
-			name: "SummonerServiceExistsShouldReturnFalseWhenSummonerExists",
+			name: "SummonerServiceExistsShouldReturTrueWhenSummonerExists",
 
 			mockSummoner: &summoner,
 			findError:    nil,
 
-			expectedBool:  false,
+			expectedBool:  true,
 			expectedError: false,
 		},
 		{
