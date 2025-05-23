@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type RegisterRequestParam struct {
+type MonsterRegisterRequestParam struct {
 	Name      string `json:"name"`
 	ATK       int    `json:"atk"`
 	DEF       int    `json:"def"`
@@ -19,21 +19,21 @@ type RegisterRequestParam struct {
 	Attribute string `json:"attribute"`
 }
 
-type RegisterHandler struct {
+type MonsterRegisterHandler struct {
 	monsterRegisterService service.MonsterRegisterService
 }
 
-func NewRegisterHandler(monsterRegisterService service.MonsterRegisterService) RegisterHandler {
-	return RegisterHandler{
+func NewMonsterRegisterHandler(monsterRegisterService service.MonsterRegisterService) MonsterRegisterHandler {
+	return MonsterRegisterHandler{
 		monsterRegisterService: monsterRegisterService,
 	}
 }
 
-func (r *RegisterHandler) RegisterHandlerFunc() func(c *fiber.Ctx) error {
+func (r *MonsterRegisterHandler) RegisterHandlerFunc() func(c *fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
 		body := c.Body()
 
-		var requestParam RegisterRequestParam
+		var requestParam MonsterRegisterRequestParam
 		if err := json.Unmarshal(body, &requestParam); err != nil {
 			return c.SendStatus(fiber.StatusBadRequest)
 		}

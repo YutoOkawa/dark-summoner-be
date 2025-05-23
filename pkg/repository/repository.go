@@ -14,3 +14,16 @@ type MonsterGetterSaver interface {
 	MonsterSaver
 	MonsterGetter
 }
+
+type SummonerSaver interface {
+	Save(summoner entity.Summoner) error
+}
+
+type SummonerGetter interface {
+	Find(playerID string) (*entity.Summoner, error)
+}
+
+type SummonerGetterSaver interface {
+	SummonerSaver
+	SummonerGetter
+}
