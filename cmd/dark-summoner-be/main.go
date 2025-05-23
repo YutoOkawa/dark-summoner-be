@@ -17,26 +17,22 @@ func main() {
 
 	server := server.NewServer(":8080", 0)
 
-	repository := repository.NewInMemoryMonsterRepository()
+	monsterRepository := repository.NewInMemoryMonsterRepository()
 
-	monsterService := service.NewMonsterService(repository)
-	monsterGetInfoService := service.NewMonsterGetInfoService(repository)
-	monsterRegisterService := service.NewMonsterRegisterService(repository, monsterService)
+	monsterService := service.NewMonsterService(monsterRepository)
+	monsterGetInfoService := service.NewMonsterGetInfoService(monsterRepository)
+	monsterRegisterService := service.NewMonsterRegisterService(monsterRepository, monsterService)
 
-	registerHandler := handler.NewRegisterHandler(monsterRegisterService)
-	getInfoHandler := handler.NewGetInfoHandler(monsterGetInfoService)
+	monsterRegisterHandler := handler.NewMonsterRegisterHandler(monsterRegisterService)
+	monsterGetInfoHandler := handler.NewMonsterGetInfoHandler(monsterGetInfoService)
 
 	server.App.Get("/healthz", handler.HealthZHandler)
 	v1 := server.App.Group("/v1")
 	{
-		register := v1.Group("/register")
+		monster := v1.Group("/monster")
 		{
-			register.Post("/", registerHandler.RegisterHandlerFunc())
-		}
-
-		getInfo := v1.Group("/getInfo")
-		{
-			getInfo.Get("/:name", getInfoHandler.GetInfoHandlerFunc())
+			monster.Post("/", monsterRegisterHandler.RegisterHandlerFunc())
+			monster.Get("/:name", monsterGetInfoHandler.GetInfoHandlerFunc())
 		}
 	}
 

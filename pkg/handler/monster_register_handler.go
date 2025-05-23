@@ -23,7 +23,7 @@ type MonsterRegisterHandler struct {
 	monsterRegisterService service.MonsterRegisterService
 }
 
-func NewRegisterHandler(monsterRegisterService service.MonsterRegisterService) MonsterRegisterHandler {
+func NewMonsterRegisterHandler(monsterRegisterService service.MonsterRegisterService) MonsterRegisterHandler {
 	return MonsterRegisterHandler{
 		monsterRegisterService: monsterRegisterService,
 	}

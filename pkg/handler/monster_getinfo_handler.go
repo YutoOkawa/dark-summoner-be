@@ -11,7 +11,7 @@ type MonsterGetInfoHandler struct {
 	monsterGetInfoService service.MonsterGetInfoService
 }
 
-func NewGetInfoHandler(monsterGetInfoService service.MonsterGetInfoService) MonsterGetInfoHandler {
+func NewMonsterGetInfoHandler(monsterGetInfoService service.MonsterGetInfoService) MonsterGetInfoHandler {
 	return MonsterGetInfoHandler{
 		monsterGetInfoService: monsterGetInfoService,
 	}
