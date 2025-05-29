@@ -26,12 +26,14 @@ func main() {
 
 	summonerService := service.NewSummonerService(summonerRepository)
 	summonerRegisterService := service.NewSummonerRegisterService(summonerRepository, summonerService)
+	summonerAddMonsterService := service.NewSummonerAddMonsterService(summonerRepository)
 
 	monsterRegisterHandler := handler.NewMonsterRegisterHandler(monsterRegisterService)
 	monsterGetInfoHandler := handler.NewMonsterGetInfoHandler(monsterGetInfoService)
 
 	summonerRegisterHandler := handler.NewSummonerRegisterHandler(summonerService, summonerRegisterService, monsterGetInfoService)
 	summonerGetInfoHandler := handler.NewSummonerGetInfoHandler(service.NewSummonerGetInfoService(summonerRepository))
+	summonerAddMonsterHandler := handler.NewSummonerAddMonsterHandler(*summonerService, summonerAddMonsterService, monsterGetInfoService)
 
 	server.App.Get("/healthz", handler.HealthZHandler)
 	v1 := server.App.Group("/v1")
@@ -46,6 +48,7 @@ func main() {
 		{
 			summoner.Post("/", summonerRegisterHandler.RegisterHandlerFunc())
 			summoner.Get("/:player_id", summonerGetInfoHandler.GetInfoHandlerFunc())
+			summoner.Post("/:player_id/monster/:monster_name", summonerAddMonsterHandler.AddMonsterHandlerFunc())
 		}
 	}
 
