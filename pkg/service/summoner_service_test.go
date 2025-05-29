@@ -19,7 +19,7 @@ func (m *mockSummonerGetter) Find(playerID string) (*entity.Summoner, error) {
 func TestSummonerServiceExists(t *testing.T) {
 	summoner := entity.Summoner{
 		PlayerID: "test_player_id",
-		Monsters: []entity.Monster{},
+		Monsters: []string{},
 	}
 
 	tests := []struct {

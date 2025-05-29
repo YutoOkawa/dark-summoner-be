@@ -51,7 +51,7 @@ func TestAddMonster(t *testing.T) {
 
 			summoner: Summoner{
 				PlayerID: "test_player_id",
-				Monsters: []Monster{},
+				Monsters: []string{},
 			},
 			monster: Monster{
 				Name: "test_monster",
@@ -61,7 +61,7 @@ func TestAddMonster(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.summoner.AddMonster(tt.monster)
+			tt.summoner.AddMonster(tt.monster.Name)
 			if len(tt.summoner.Monsters) != 1 {
 				t.Errorf("expected 1 monster, got: %d", len(tt.summoner.Monsters))
 			}
@@ -83,11 +83,11 @@ func TestSummonerEqual(t *testing.T) {
 
 			summoner1: &Summoner{
 				PlayerID: "test_player_id",
-				Monsters: []Monster{},
+				Monsters: []string{},
 			},
 			summoner2: &Summoner{
 				PlayerID: "test_player_id",
-				Monsters: []Monster{},
+				Monsters: []string{},
 			},
 
 			expectedEqual: true,
@@ -97,11 +97,11 @@ func TestSummonerEqual(t *testing.T) {
 
 			summoner1: &Summoner{
 				PlayerID: "test_player_id",
-				Monsters: []Monster{},
+				Monsters: []string{},
 			},
 			summoner2: &Summoner{
 				PlayerID: "different_player_id",
-				Monsters: []Monster{},
+				Monsters: []string{},
 			},
 
 			expectedEqual: false,
@@ -110,15 +110,13 @@ func TestSummonerEqual(t *testing.T) {
 			name: "DifferentMonstersShouldReturnFalse",
 			summoner1: &Summoner{
 				PlayerID: "test_player_id",
-				Monsters: []Monster{
-					{
-						Name: "monster1",
-					},
+				Monsters: []string{
+					"monster1",
 				},
 			},
 			summoner2: &Summoner{
 				PlayerID: "test_player_id",
-				Monsters: []Monster{},
+				Monsters: []string{},
 			},
 
 			expectedEqual: false,

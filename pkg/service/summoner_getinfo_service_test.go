@@ -24,7 +24,7 @@ func TestSummonerGetInfoServiceGetInfo(t *testing.T) {
 
 			mockSummoner: &entity.Summoner{
 				PlayerID: "test_player",
-				Monsters: []entity.Monster{},
+				Monsters: []string{},
 			},
 			findError: nil,
 
@@ -32,7 +32,7 @@ func TestSummonerGetInfoServiceGetInfo(t *testing.T) {
 
 			expectedSummoner: &entity.Summoner{
 				PlayerID: "test_player",
-				Monsters: []entity.Monster{},
+				Monsters: []string{},
 			},
 			expectedError: false,
 		},
@@ -52,7 +52,7 @@ func TestSummonerGetInfoServiceGetInfo(t *testing.T) {
 
 			mockSummoner: &entity.Summoner{
 				PlayerID: "test_player",
-				Monsters: []entity.Monster{},
+				Monsters: []string{},
 			},
 			findError: errors.New("repository error"),
 

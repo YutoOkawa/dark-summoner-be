@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"net/url"
 
 	"github.com/YutoOkawa/dark-summoner-be/pkg/entity"
 	"github.com/YutoOkawa/dark-summoner-be/pkg/service"
@@ -45,26 +44,9 @@ func (r *SummonerRegisterHandler) RegisterHandlerFunc() func(c *fiber.Ctx) error
 			return c.SendStatus(fiber.StatusConflict)
 		}
 
-		monsters := make([]entity.Monster, 0, len(requestParam.Monsters))
-		for _, monsterName := range requestParam.Monsters {
-			unescapedMonsterName, err := url.PathUnescape(monsterName)
-			if err != nil {
-				return c.SendStatus(fiber.StatusBadRequest)
-			}
-
-			monster, err := r.monsterGetInfoService.GetInfo(unescapedMonsterName)
-			if err != nil {
-				return c.SendString(err.Error())
-			}
-			if monster == nil {
-				return c.SendStatus(fiber.StatusNotFound)
-			}
-			monsters = append(monsters, *monster)
-		}
-
 		command := entity.SummonerRegisterCommand{
 			PlayerID: requestParam.PlayerID,
-			Monsters: monsters,
+			Monsters: requestParam.Monsters,
 		}
 
 		err = r.summonerRegisterService.Register(command)

@@ -3,8 +3,8 @@ package entity
 import "errors"
 
 type Summoner struct {
-	PlayerID string    `json:"player_id"`
-	Monsters []Monster `json:"monsters"`
+	PlayerID string   `json:"player_id"`
+	Monsters []string `json:"monsters"`
 }
 
 func NewSummoner(playerID string) (*Summoner, error) {
@@ -13,11 +13,11 @@ func NewSummoner(playerID string) (*Summoner, error) {
 	}
 	return &Summoner{
 		PlayerID: playerID,
-		Monsters: []Monster{},
+		Monsters: []string{},
 	}, nil
 }
 
-func (s *Summoner) AddMonster(monster Monster) {
+func (s *Summoner) AddMonster(monster string) {
 	s.Monsters = append(s.Monsters, monster)
 }
 

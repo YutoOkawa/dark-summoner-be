@@ -18,10 +18,8 @@ func (m *mockSummonerSaver) Save(summoner entity.Summoner) error {
 func TestSummonerRegisterService(t *testing.T) {
 	registerCommand := entity.SummonerRegisterCommand{
 		PlayerID: "test_player_id",
-		Monsters: []entity.Monster{
-			{
-				Name: "test_monster",
-			},
+		Monsters: []string{
+			"test_monster",
 		},
 	}
 
@@ -55,10 +53,8 @@ func TestSummonerRegisterService(t *testing.T) {
 
 			mockSummoner: &entity.Summoner{
 				PlayerID: "test_player_id",
-				Monsters: []entity.Monster{
-					{
-						Name: "test_monster",
-					},
+				Monsters: []string{
+					"test_monster",
 				},
 			},
 			findError: nil,
@@ -71,7 +67,7 @@ func TestSummonerRegisterService(t *testing.T) {
 
 			command: entity.SummonerRegisterCommand{
 				PlayerID: "",
-				Monsters: []entity.Monster{},
+				Monsters: []string{},
 			},
 
 			mockSummoner: nil,

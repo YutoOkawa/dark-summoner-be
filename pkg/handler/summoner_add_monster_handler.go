@@ -47,18 +47,9 @@ func (h *SummonerAddMonsterHandler) AddMonsterHandlerFunc() func(c *fiber.Ctx) e
 			return c.SendStatus(fiber.StatusNotFound)
 		}
 
-		monster, err := h.monsterGetInfoService.GetInfo(unescapedMonsterName)
-		if err != nil {
-			return c.SendString(err.Error())
-		}
-
-		if monster == nil {
-			return c.SendStatus(fiber.StatusNotFound)
-		}
-
 		command := entity.SummonerAddMonsterCommand{
 			PlayerID: playerID,
-			Monster:  *monster,
+			Monster:  unescapedMonsterName,
 		}
 
 		err = h.summonerAddMonsterService.AddMonster(command)
