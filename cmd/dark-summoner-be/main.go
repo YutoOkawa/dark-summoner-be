@@ -17,26 +17,38 @@ func main() {
 
 	server := server.NewServer(":8080", 0)
 
-	repository := repository.NewInMemoryMonsterRepository()
+	monsterRepository := repository.NewInMemoryMonsterRepository()
+	summonerRepository := repository.NewInMemorySummonerRepository()
 
-	monsterService := service.NewMonsterService(repository)
-	monsterGetInfoService := service.NewMonsterGetInfoService(repository)
-	monsterRegisterService := service.NewMonsterRegisterService(repository, monsterService)
+	monsterService := service.NewMonsterService(monsterRepository)
+	monsterGetInfoService := service.NewMonsterGetInfoService(monsterRepository)
+	monsterRegisterService := service.NewMonsterRegisterService(monsterRepository, monsterService)
 
-	registerHandler := handler.NewRegisterHandler(monsterRegisterService)
-	getInfoHandler := handler.NewGetInfoHandler(monsterGetInfoService)
+	summonerService := service.NewSummonerService(summonerRepository)
+	summonerRegisterService := service.NewSummonerRegisterService(summonerRepository, summonerService)
+	summonerAddMonsterService := service.NewSummonerAddMonsterService(summonerRepository)
+
+	monsterRegisterHandler := handler.NewMonsterRegisterHandler(monsterRegisterService)
+	monsterGetInfoHandler := handler.NewMonsterGetInfoHandler(monsterGetInfoService)
+
+	summonerRegisterHandler := handler.NewSummonerRegisterHandler(summonerService, summonerRegisterService, monsterGetInfoService)
+	summonerGetInfoHandler := handler.NewSummonerGetInfoHandler(service.NewSummonerGetInfoService(summonerRepository))
+	summonerAddMonsterHandler := handler.NewSummonerAddMonsterHandler(*summonerService, summonerAddMonsterService, monsterGetInfoService)
 
 	server.App.Get("/healthz", handler.HealthZHandler)
 	v1 := server.App.Group("/v1")
 	{
-		register := v1.Group("/register")
+		monster := v1.Group("/monster")
 		{
-			register.Post("/", registerHandler.RegisterHandlerFunc())
+			monster.Post("/", monsterRegisterHandler.RegisterHandlerFunc())
+			monster.Get("/:name", monsterGetInfoHandler.GetInfoHandlerFunc())
 		}
 
-		getInfo := v1.Group("/getInfo")
+		summoner := v1.Group("/summoner")
 		{
-			getInfo.Get("/:name", getInfoHandler.GetInfoHandlerFunc())
+			summoner.Post("/", summonerRegisterHandler.RegisterHandlerFunc())
+			summoner.Get("/:player_id", summonerGetInfoHandler.GetInfoHandlerFunc())
+			summoner.Post("/:player_id/monster/:monster_name", summonerAddMonsterHandler.AddMonsterHandlerFunc())
 		}
 	}
 
