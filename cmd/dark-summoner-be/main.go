@@ -30,7 +30,8 @@ func main() {
 	monsterRegisterHandler := handler.NewMonsterRegisterHandler(monsterRegisterService)
 	monsterGetInfoHandler := handler.NewMonsterGetInfoHandler(monsterGetInfoService)
 
-	summonerRegisterHandler := handler.NewSummonerRegisterHandler(summonerRegisterService)
+	summonerRegisterHandler := handler.NewSummonerRegisterHandler(summonerService, summonerRegisterService, monsterGetInfoService)
+	summonerGetInfoHandler := handler.NewSummonerGetInfoHandler(service.NewSummonerGetInfoService(summonerRepository))
 
 	server.App.Get("/healthz", handler.HealthZHandler)
 	v1 := server.App.Group("/v1")
@@ -44,6 +45,7 @@ func main() {
 		summoner := v1.Group("/summoner")
 		{
 			summoner.Post("/", summonerRegisterHandler.RegisterHandlerFunc())
+			summoner.Get("/:player_id", summonerGetInfoHandler.GetInfoHandlerFunc())
 		}
 	}
 
