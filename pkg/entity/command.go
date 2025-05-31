@@ -13,10 +13,10 @@ type MonsterRegisterCommand struct {
 
 type SummonerRegisterCommand struct {
 	PlayerID string
-	Monsters []Monster
+	Monsters []string
 }
 
 type SummonerAddMonsterCommand struct {
 	PlayerID string
-	Monster  Monster
+	Monster  string
 }

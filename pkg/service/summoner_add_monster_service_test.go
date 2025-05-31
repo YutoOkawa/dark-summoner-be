@@ -24,9 +24,7 @@ func (m *mockSummonerGetterSaver) Save(summoner entity.Summoner) error {
 func TestSummonerAddMonsterService(t *testing.T) {
 	addMonsterCommand := entity.SummonerAddMonsterCommand{
 		PlayerID: "test_player_id",
-		Monster: entity.Monster{
-			Name: "test_monster",
-		},
+		Monster:  "test_monster",
 	}
 
 	tests := []struct {
@@ -47,7 +45,7 @@ func TestSummonerAddMonsterService(t *testing.T) {
 
 			mockSummoner: &entity.Summoner{
 				PlayerID: "test_player_id",
-				Monsters: []entity.Monster{},
+				Monsters: []string{},
 			},
 			findError: nil,
 			saveError: nil,

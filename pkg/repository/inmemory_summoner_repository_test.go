@@ -21,7 +21,7 @@ func TestInMemorySummonerRepositorySave(t *testing.T) {
 
 			summoner: entity.Summoner{
 				PlayerID: "test_player_id",
-				Monsters: []entity.Monster{},
+				Monsters: []string{},
 			},
 
 			expectedError: false,
@@ -32,17 +32,15 @@ func TestInMemorySummonerRepositorySave(t *testing.T) {
 				repo := NewInMemorySummonerRepository()
 				repo.summoners = append(repo.summoners, entity.Summoner{
 					PlayerID: "test_player_id",
-					Monsters: []entity.Monster{},
+					Monsters: []string{},
 				})
 				return repo
 			}(),
 
 			summoner: entity.Summoner{
 				PlayerID: "test_player_id",
-				Monsters: []entity.Monster{
-					{
-						Name: "test_monster",
-					},
+				Monsters: []string{
+					"test_monster",
 				},
 			},
 
@@ -80,7 +78,7 @@ func TestInMemorySummonerRepositoryFind(t *testing.T) {
 				repo := NewInMemorySummonerRepository()
 				repo.summoners = append(repo.summoners, entity.Summoner{
 					PlayerID: "test_player_id",
-					Monsters: []entity.Monster{},
+					Monsters: []string{},
 				})
 				return repo
 			}(),
@@ -88,7 +86,7 @@ func TestInMemorySummonerRepositoryFind(t *testing.T) {
 			playerID: "test_player_id",
 			expectedSummoner: &entity.Summoner{
 				PlayerID: "test_player_id",
-				Monsters: []entity.Monster{},
+				Monsters: []string{},
 			},
 			expectedError: false,
 		},
