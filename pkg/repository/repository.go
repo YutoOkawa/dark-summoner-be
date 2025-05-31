@@ -10,6 +10,10 @@ type MonsterGetter interface {
 	Find(name string) (*entity.Monster, error)
 }
 
+type MonsterLister interface {
+	List() ([]entity.Monster, error)
+}
+
 type MonsterGetterSaver interface {
 	MonsterSaver
 	MonsterGetter

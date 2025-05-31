@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/YutoOkawa/dark-summoner-be/pkg/entity"
@@ -87,6 +88,47 @@ func TestInMemoryMonsterRepositoryFind(t *testing.T) {
 			}
 			if result == nil || *result != *tt.expected {
 				t.Errorf("expected: %v, got: %v", *tt.expected, result)
+			}
+		})
+	}
+}
+
+func TestInMemoryMonsterRepositoryList(t *testing.T) {
+	tests := []struct {
+		name string
+
+		monsters []entity.Monster
+
+		expectedError error
+	}{
+		{
+			name: "ShouldInMemoryMonsterRepositoryListSuccessfully",
+
+			monsters: []entity.Monster{
+				{
+					Name: "monster1",
+				},
+				{
+					Name: "monster2",
+				},
+			},
+
+			expectedError: nil,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			repo := InMemoryMonsterRepository{
+				monsters: tt.monsters,
+			}
+
+			monsters, err := repo.List()
+			if len(monsters) != len(tt.monsters) {
+				t.Errorf("expected %d monsters, got %d", len(tt.monsters), len(monsters))
+			}
+			if !errors.Is(err, tt.expectedError) {
+				t.Errorf("expected error: %v, got: %v", tt.expectedError, err)
 			}
 		})
 	}

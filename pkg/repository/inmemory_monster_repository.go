@@ -35,6 +35,10 @@ func (repo *InMemoryMonsterRepository) Find(name string) (*entity.Monster, error
 	return nil, nil
 }
 
+func (repo *InMemoryMonsterRepository) List() ([]entity.Monster, error) {
+	return repo.monsters, nil
+}
+
 func (repo *InMemoryMonsterRepository) SaveJSONFile(fileName string) error {
 	var monstersData Monsters
 	monstersData.Monsters = repo.monsters
