@@ -1,0 +1,3 @@
+port: ":8080"
+summoner_file_path: "/etc/config/dark-summoner-be/summoners.json"
+monster_file_path: "/etc/config/dark-summoner-be/monsters.json"
