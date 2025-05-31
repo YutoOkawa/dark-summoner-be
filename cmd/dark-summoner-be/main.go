@@ -12,13 +12,18 @@ import (
 )
 
 func main() {
+	var summonerFile = "summoners.json"
+	var monsterFile = "monsters.json"
+
 	ctx, ctxCancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer ctxCancel()
 
 	server := server.NewServer(":8080", 0)
 
 	monsterRepository := repository.NewInMemoryMonsterRepository()
+	monsterRepository.LoadJSONFile(monsterFile)
 	summonerRepository := repository.NewInMemorySummonerRepository()
+	summonerRepository.LoadJSONFile(summonerFile)
 
 	monsterService := service.NewMonsterService(monsterRepository)
 	monsterGetInfoService := service.NewMonsterGetInfoService(monsterRepository)
@@ -60,6 +65,12 @@ func main() {
 		case err := <-srvErrCh:
 			panic(err)
 		case <-ctx.Done():
+			if err := summonerRepository.SaveJSONFile(summonerFile); err != nil {
+				panic(err)
+			}
+			if err := monsterRepository.SaveJSONFile(monsterFile); err != nil {
+				panic(err)
+			}
 			if err := server.Shutdown(); err != nil {
 				panic(err)
 			}
