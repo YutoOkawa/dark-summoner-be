@@ -12,3 +12,17 @@ tasks:
   run:
     cmds:
       - ./dark-summoner-be -c config.yaml
+
+  docker-image-build:
+    cmds:
+      - docker build -t dark-summoner-be:latest .
+
+  docker-run:
+    cmds:
+      - docker run -it --rm -d -p 8080:8080 -v `pwd`/deploy/config.yaml:$CONFIG_FILE_PATH/config.yaml -v `pwd`/summoners.json:$CONFIG_FILE_PATH/summoners.json -v `pwd`/monsters.json:$CONFIG_FILE_PATH/monsters.json --name dark-summoner-be dark-summoner-be
+    env:
+      CONFIG_FILE_PATH: /etc/config/dark-summoner-be/
+
+  docker-stop:
+    cmds:
+      - docker stop dark-summoner-be
