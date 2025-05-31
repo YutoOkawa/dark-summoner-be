@@ -2,28 +2,37 @@ package main
 
 import (
 	"context"
+	"flag"
 	"os/signal"
 	"syscall"
 
+	"github.com/YutoOkawa/dark-summoner-be/pkg/config"
 	"github.com/YutoOkawa/dark-summoner-be/pkg/handler"
 	"github.com/YutoOkawa/dark-summoner-be/pkg/repository"
 	"github.com/YutoOkawa/dark-summoner-be/pkg/server"
 	"github.com/YutoOkawa/dark-summoner-be/pkg/service"
 )
 
+var defaultConfigFilePath = "/etc/config/dark-summoner-be/config.yaml"
+
 func main() {
-	var summonerFile = "summoners.json"
-	var monsterFile = "monsters.json"
+	configFilePath := flag.String("config", defaultConfigFilePath, "Path to the configuration file")
+	flag.Parse()
+
+	config, err := config.LoadConfigFile(*configFilePath)
+	if err != nil {
+		panic(err)
+	}
 
 	ctx, ctxCancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer ctxCancel()
 
-	server := server.NewServer(":8080", 0)
+	server := server.NewServer(config.Port, 0)
 
 	monsterRepository := repository.NewInMemoryMonsterRepository()
-	monsterRepository.LoadJSONFile(monsterFile)
+	monsterRepository.LoadJSONFile(config.MonsterFilePath)
 	summonerRepository := repository.NewInMemorySummonerRepository()
-	summonerRepository.LoadJSONFile(summonerFile)
+	summonerRepository.LoadJSONFile(config.SummonerFilePath)
 
 	monsterService := service.NewMonsterService(monsterRepository)
 	monsterGetInfoService := service.NewMonsterGetInfoService(monsterRepository)
@@ -72,10 +81,10 @@ func main() {
 		case err := <-srvErrCh:
 			panic(err)
 		case <-ctx.Done():
-			if err := summonerRepository.SaveJSONFile(summonerFile); err != nil {
+			if err := summonerRepository.SaveJSONFile(config.SummonerFilePath); err != nil {
 				panic(err)
 			}
-			if err := monsterRepository.SaveJSONFile(monsterFile); err != nil {
+			if err := monsterRepository.SaveJSONFile(config.MonsterFilePath); err != nil {
 				panic(err)
 			}
 			if err := server.Shutdown(); err != nil {

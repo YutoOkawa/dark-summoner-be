@@ -11,4 +11,4 @@ tasks:
 
   run:
     cmds:
-      - ./dark-summoner-be
+      - ./dark-summoner-be -c config.yaml
